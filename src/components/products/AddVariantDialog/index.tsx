@@ -48,7 +48,7 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
   }
 
   const onSave = (variant: Partial<Variant>) => {
-    onAddVariant(product?.id as number, variant as Variant)
+    onAddVariant(product?.id as string, variant as Variant)
     setOpen(false)
   }
 
