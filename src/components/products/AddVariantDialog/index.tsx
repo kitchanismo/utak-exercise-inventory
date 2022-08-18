@@ -20,21 +20,24 @@ import { Category, Product } from '~/types/product.type'
 import { useAddProductForm } from '~/forms/product.form'
 import { useEffect } from 'react'
 import { useProduct } from '~/hooks/product.hook'
+import { useAddVariantForm } from '~/forms/variant.from'
+import { Variant } from '~/types/variant.type'
 
-interface AddProductDialogProps {
+interface AddVariantDialogProps {
   openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
+  product: Product
 }
 
-const AddProductDialog = ({ openState }: AddProductDialogProps) => {
+const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
   const [open, setOpen] = openState
-  const { onAddProduct } = useProduct()
+  const { onAddProduct, onAddVariant } = useProduct()
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     reset,
-  } = useAddProductForm({})
+  } = useAddVariantForm({})
 
   useEffect(() => {
     reset({})
@@ -44,60 +47,30 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
     setOpen(false)
   }
 
-  const onSave = (product: Partial<Product>) => {
-    onAddProduct(product as Product)
+  const onSave = (variant: Partial<Variant>) => {
+    onAddVariant(product?.id as number, variant as Variant)
     setOpen(false)
   }
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
-        Add New Product
+        Add New Option - {product?.name}
       </DialogTitle>
       <Box sx={{ minWidth: 550, p: 2, px: 3 }}>
         <form noValidate onSubmit={handleSubmit(onSave)}>
           <TextField
             {...register('name')}
             margin='dense'
-            id='productName'
-            label='Product Name'
+            id='optionName'
+            label='Option Name'
             type='text'
             fullWidth
             variant='outlined'
             FormHelperTextProps={{ sx: { color: 'red' } }}
             helperText={errors['name']?.message}
           />
-          <Box sx={{ display: 'flex', pt: 1 }}>
-            <FormControl fullWidth sx={{ mt: 1 }}>
-              <InputLabel id='demo-simple-select-label'>Category</InputLabel>
-              <Select
-                {...register('category')}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                label='Category'
-              >
-                <MenuItem value={Category.DESSERT}>{Category.DESSERT}</MenuItem>
-                <MenuItem value={Category.DRINKS}>{Category.DRINKS}</MenuItem>
-                <MenuItem value={Category.MEAL}>{Category.MEAL}</MenuItem>
-              </Select>
-              {errors['category'] && (
-                <FormHelperText sx={{ color: 'red' }}>
-                  {errors['category']?.message}
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Box p={1} />
-            <TextField
-              {...register('stock')}
-              margin='dense'
-              label='Stock'
-              type='text'
-              fullWidth
-              variant='outlined'
-              FormHelperTextProps={{ sx: { color: 'red' } }}
-              helperText={errors['stock']?.message}
-            />
-          </Box>
+
           <Box sx={{ display: 'flex', pt: 2 }}>
             <FormControl fullWidth>
               <InputLabel htmlFor='outlined-adornment-price'>Price</InputLabel>
@@ -132,6 +105,18 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
                 </FormHelperText>
               )}
             </FormControl>
+            <Box p={1} />
+            <TextField
+              {...register('stock')}
+              margin='dense'
+              label='Stock'
+              type='text'
+              fullWidth
+              variant='outlined'
+              FormHelperTextProps={{ sx: { color: 'red' } }}
+              helperText={errors['stock']?.message}
+              sx={{ mt: 0 }}
+            />
           </Box>
 
           <DialogActions sx={{ pt: 3 }}>
@@ -154,4 +139,4 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
   )
 }
 
-export default AddProductDialog
+export default AddVariantDialog

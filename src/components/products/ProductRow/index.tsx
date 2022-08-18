@@ -9,7 +9,7 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyledTableCell } from '~/components/common/MyStyledTableCell'
 import { Product } from '~/types/product.type'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
@@ -18,6 +18,7 @@ import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Close'
 import { StyledTableSubCell } from '~/components/common/MyStyledTableSubCell'
+import AddVariantDialog from '../AddVariantDialog'
 
 interface ProductTablRowProps {
   product: Product
@@ -27,12 +28,21 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
   const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
 
+  useEffect(() => {
+    setOpen(!hasNoVariant)
+  }, [hasNoVariant])
+
+  const [openVariant, setOpenVariant] = useState(false)
+
   return (
     <React.Fragment>
+      <AddVariantDialog
+        product={product}
+        openState={[openVariant, setOpenVariant]}
+      />
       <TableRow
         sx={{
           '& > *': { borderBottom: 'unset' },
-          // bgcolor: '#ededed',
         }}
       >
         <StyledTableCell>{product?.name}</StyledTableCell>
@@ -50,7 +60,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
           <>
             {hasNoVariant && (
               <Tooltip title='ADD OPTION'>
-                <IconButton aria-label='expand row' size='large'>
+                <IconButton
+                  onClick={() => setOpenVariant(true)}
+                  aria-label='expand row'
+                  size='large'
+                >
                   <AddIcon />
                 </IconButton>
               </Tooltip>
@@ -79,7 +93,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
       </TableRow>
       <TableRow
         sx={{
-          bgcolor: '#ededed',
+          bgcolor: '#eeeeee',
         }}
       >
         <StyledTableCell
@@ -104,6 +118,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                   startIcon={<AddIcon />}
                   variant='contained'
                   color='secondary'
+                  onClick={() => setOpenVariant(true)}
                 >
                   New Option
                 </Button>

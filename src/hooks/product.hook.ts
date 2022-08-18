@@ -3,8 +3,13 @@ import { Product } from '~/types/product.type'
 import { addProduct, getProducts } from '~/services/product.service'
 import { ApplicationReducers } from '~/stores'
 import { toggleLoading } from '~/stores/global.store'
-import { addProductAction, setProductsAction } from '~/stores/product.store'
+import {
+  addProductAction,
+  setProductsAction,
+  addVariantAction,
+} from '~/stores/product.store'
 import { useEffect } from 'react'
+import { Variant } from '~/types/variant.type'
 
 export const useProduct = () => {
   const productState = useSelector(
@@ -25,9 +30,14 @@ export const useProduct = () => {
     dispatch(addProductAction(newProduct))
   }
 
+  const onAddVariant = async (id: number, variant: Variant) => {
+    dispatch(addVariantAction({ id, variant }))
+  }
+
   return {
     productState,
     onGetProducts,
     onAddProduct,
+    onAddVariant,
   }
 }

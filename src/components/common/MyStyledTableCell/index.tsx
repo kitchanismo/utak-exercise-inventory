@@ -8,5 +8,6 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
 }))
