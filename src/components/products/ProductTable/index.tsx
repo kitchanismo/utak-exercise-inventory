@@ -7,146 +7,25 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Box, Collapse, IconButton, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Collapse,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import { Product } from '~/types/product.type'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    fontSize: 20,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 18,
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-}))
-
-const StyledTableSubCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.primary.main,
-    fontSize: 20,
-
-    borderBottom: 'none',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-    paddingTop: 12,
-    paddingBottom: 12,
-
-    borderBottom: 'none',
-  },
-}))
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}))
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein }
-}
+import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Close'
+import { StyledTableCell } from '~/components/common/MyStyledTableCell'
+import ProductRow from '../ProductRow'
 
 interface ProductTableProps {
   products: Product[]
-}
-
-interface ProductTablRowProps {
-  product: Product
-}
-
-function Row({ product }: ProductTablRowProps) {
-  const [open, setOpen] = React.useState(false)
-  const hasNoVariant = product?.variants?.length === 0
-  return (
-    <React.Fragment>
-      <TableRow
-        sx={{
-          '& > *': { borderBottom: 'unset' },
-          // bgcolor: '#ededed',
-        }}
-      >
-        <StyledTableCell>{product?.name}</StyledTableCell>
-        <StyledTableCell align='right'>
-          {product?.category?.name}
-        </StyledTableCell>
-        <StyledTableCell align='right'>
-          {hasNoVariant ? product?.price : '-'}
-        </StyledTableCell>
-        <StyledTableCell align='right'>
-          {hasNoVariant ? product?.cost : '-'}
-        </StyledTableCell>
-        <StyledTableCell align='right'>
-          {hasNoVariant ? product?.stock : '-'}
-        </StyledTableCell>
-        <StyledTableCell align='right'>
-          {!hasNoVariant && (
-            <IconButton
-              aria-label='expand row'
-              size='small'
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          )}
-        </StyledTableCell>
-      </TableRow>
-      <TableRow
-        sx={{
-          bgcolor: '#ededed',
-        }}
-      >
-        <StyledTableCell
-          style={{ paddingBottom: 0, paddingTop: 0 }}
-          colSpan={6}
-        >
-          <Collapse in={open} timeout='auto' unmountOnExit>
-            <Box
-              sx={{
-                pt: 2,
-              }}
-            >
-              <Table size='small' aria-label='purchases'>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableSubCell>Options</StyledTableSubCell>
-                    <StyledTableSubCell>Price</StyledTableSubCell>
-                    <StyledTableSubCell>Cost</StyledTableSubCell>
-                    <StyledTableSubCell>Stock</StyledTableSubCell>
-                    <StyledTableSubCell>Actions</StyledTableSubCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {product?.variants?.map((variant) => (
-                    <TableRow key={variant?.id}>
-                      <StyledTableSubCell>{variant.name}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.price}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.cost}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.stock}</StyledTableSubCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </StyledTableCell>
-      </TableRow>
-    </React.Fragment>
-  )
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
@@ -167,7 +46,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
         </TableHead>
         <TableBody>
           {products.map((product) => (
-            <Row key={product.id} product={product} />
+            <ProductRow key={product.id} product={product} />
           ))}
         </TableBody>
       </Table>
