@@ -28,7 +28,6 @@ interface ProductTablRowProps {
 const ProductRow = ({ product }: ProductTablRowProps) => {
   const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
-  const { onDeleteVariant } = useProduct()
 
   useEffect(() => {
     setOpen(!hasNoVariant)
@@ -151,16 +150,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                             </IconButton>
                           </Tooltip>
                           <Tooltip title='DELETE OPTION'>
-                            <IconButton
-                              onClick={() =>
-                                onDeleteVariant(
-                                  product?.id as string,
-                                  variant?.id as string
-                                )
-                              }
-                              aria-label='expand row'
-                              size='medium'
-                            >
+                            <IconButton aria-label='expand row' size='medium'>
                               <DeleteIcon />
                             </IconButton>
                           </Tooltip>
