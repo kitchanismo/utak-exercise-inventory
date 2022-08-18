@@ -9,6 +9,9 @@ const ProductsPage = () => {
   const { productState, onGetProducts } = useProduct()
   useEffect(() => {
     const result = onGetProducts()
+    return () => {
+      result.onDisconnect()
+    }
   }, [])
   return (
     <Box my='50px'>

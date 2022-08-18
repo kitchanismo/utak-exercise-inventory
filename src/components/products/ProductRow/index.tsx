@@ -137,7 +137,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {product?.variants?.map((variant) => (
+                  {(product?.variants || [])?.map((variant) => (
                     <TableRow key={variant?.id}>
                       <StyledTableSubCell>{variant.name}</StyledTableSubCell>
                       <StyledTableSubCell>{variant?.price}</StyledTableSubCell>
@@ -154,8 +154,8 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                             <IconButton
                               onClick={() =>
                                 onDeleteVariant(
-                                  product?.id as number,
-                                  variant?.id as number
+                                  product?.id as string,
+                                  variant?.id as string
                                 )
                               }
                               aria-label='expand row'

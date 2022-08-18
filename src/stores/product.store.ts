@@ -14,10 +14,10 @@ const state: IProductStore = {
 export const setProductsAction = createAction<Product[]>('SET_PRODUCTS')
 export const addProductAction = createAction<Product>('ADD_PRODUCT')
 export const deleteVariantAction = createAction<{
-  productId: number
-  variantId: number
+  productId: string
+  variantId: string
 }>('DELETE_VARIANT')
-export const addVariantAction = createAction<{ id: number; variant: Variant }>(
+export const addVariantAction = createAction<{ id: string; variant: Variant }>(
   'ADD_VARIANT'
 )
 
@@ -29,35 +29,6 @@ const productStore = createReducer(state, (builder) => {
   builder.addCase(addProductAction, (state, action) => ({
     ...state,
     products: [action.payload, ...state?.products],
-  }))
-  builder.addCase(addVariantAction, (state, action) => ({
-    ...state,
-    products: state?.products?.map((product) => {
-      if (product?.id === action.payload?.id) {
-        return {
-          ...product,
-          variants: [
-            ...(product?.variants || []),
-            {
-              ...action.payload?.variant,
-              id: product?.variants?.length || 0 + 1,
-            },
-          ],
-        }
-      }
-      return product
-    }),
-  }))
-  builder.addCase(deleteVariantAction, (state, action) => ({
-    ...state,
-    products: state?.products.map((product) => {
-      const variants = product?.variants?.filter(
-        (variant) =>
-          variant.id !== action.payload?.variantId &&
-          product?.id !== action.payload.productId
-      )
-      return { ...product, variants }
-    }),
   }))
 })
 

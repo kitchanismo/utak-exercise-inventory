@@ -7,11 +7,11 @@ export enum Category {
 }
 
 export type Product = {
-  id?: number
+  id?: string
   name: string
   category: Category
   price: number
   cost: number
   stock: number
-  variants?: Variant[]
+  variants?: Variant[] | null
 }

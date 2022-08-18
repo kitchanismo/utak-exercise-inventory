@@ -45,7 +45,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product) => (
+          {products?.map((product) => (
             <ProductRow key={product.id} product={product} />
           ))}
         </TableBody>

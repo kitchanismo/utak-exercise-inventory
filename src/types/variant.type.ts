@@ -1,5 +1,5 @@
 export type Variant = {
-  id?: number
+  id?: string
   name: string
   price: number
   cost: number
