@@ -1,17 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Product } from '~/types/product.type'
-import {
-  addProduct,
-  getProducts,
-  getCategories,
-} from '~/services/product.service'
+import { addProduct, getProducts } from '~/services/product.service'
 import { ApplicationReducers } from '~/stores'
 import { toggleLoading } from '~/stores/global.store'
-import {
-  addProductAction,
-  setCategoriesAction,
-  setProductsAction,
-} from '~/stores/product.store'
+import { addProductAction, setProductsAction } from '~/stores/product.store'
+import { useEffect } from 'react'
 
 export const useProduct = () => {
   const productState = useSelector(
@@ -32,15 +25,9 @@ export const useProduct = () => {
     dispatch(addProductAction(newProduct))
   }
 
-  const onGetCategories = async () => {
-    const categories = await getCategories()
-    dispatch(setCategoriesAction(categories))
-  }
-
   return {
     productState,
     onGetProducts,
     onAddProduct,
-    onGetCategories,
   }
 }

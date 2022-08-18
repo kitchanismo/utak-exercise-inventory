@@ -24,7 +24,7 @@ interface ProductTablRowProps {
 }
 
 const ProductRow = ({ product }: ProductTablRowProps) => {
-  const hasNoVariant = product?.variants?.length === 0
+  const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
 
   return (
@@ -36,9 +36,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         }}
       >
         <StyledTableCell>{product?.name}</StyledTableCell>
-        <StyledTableCell align='right'>
-          {product?.category?.name}
-        </StyledTableCell>
+        <StyledTableCell align='right'>{product?.category}</StyledTableCell>
         <StyledTableCell align='right'>
           {hasNoVariant ? product?.price : '-'}
         </StyledTableCell>

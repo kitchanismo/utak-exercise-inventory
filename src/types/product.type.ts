@@ -1,8 +1,13 @@
-import { Category } from './category.type'
 import { Variant } from './variant.type'
 
+export enum Category {
+  DESSERT = 'Dessert',
+  MEAL = 'Meal',
+  DRINKS = 'Drinks',
+}
+
 export type Product = {
-  id: number
+  id?: number
   name: string
   category: Category
   price: number

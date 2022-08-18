@@ -1,12 +1,11 @@
-import { Category } from '~/types/category.type'
-import { Product } from '~/types/product.type'
+import { Category, Product } from '~/types/product.type'
 
 export const getProducts = () => {
   return Promise.resolve([
     {
       id: 1,
       name: 'Piatos',
-      category: { name: 'Snack' },
+      category: Category.DESSERT,
       price: 15,
       cost: 12,
       stock: 10,
@@ -18,7 +17,7 @@ export const getProducts = () => {
     {
       id: 2,
       name: 'Nova',
-      category: { name: 'Snack' },
+      category: Category.DESSERT,
       price: 20,
       cost: 12,
       stock: 10,
@@ -29,13 +28,4 @@ export const getProducts = () => {
 
 export const addProduct = (product: Product) => {
   return Promise.resolve(product)
-}
-
-export const getCategories = () => {
-  return Promise.resolve([
-    {
-      id: 1,
-      name: 'Snack',
-    },
-  ] as Category[])
 }
