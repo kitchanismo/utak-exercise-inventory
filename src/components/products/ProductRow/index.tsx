@@ -19,6 +19,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Close'
 import { StyledTableSubCell } from '~/components/common/MyStyledTableSubCell'
 import AddVariantDialog from '../AddVariantDialog'
+import { useProduct } from '~/hooks/product.hook'
 
 interface ProductTablRowProps {
   product: Product
@@ -27,6 +28,7 @@ interface ProductTablRowProps {
 const ProductRow = ({ product }: ProductTablRowProps) => {
   const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
+  const { onDeleteVariant } = useProduct()
 
   useEffect(() => {
     setOpen(!hasNoVariant)
@@ -149,7 +151,16 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                             </IconButton>
                           </Tooltip>
                           <Tooltip title='DELETE OPTION'>
-                            <IconButton aria-label='expand row' size='medium'>
+                            <IconButton
+                              onClick={() =>
+                                onDeleteVariant(
+                                  product?.id as number,
+                                  variant?.id as number
+                                )
+                              }
+                              aria-label='expand row'
+                              size='medium'
+                            >
                               <DeleteIcon />
                             </IconButton>
                           </Tooltip>

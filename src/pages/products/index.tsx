@@ -8,7 +8,7 @@ import { useProduct } from '~/hooks/product.hook'
 const ProductsPage = () => {
   const { productState, onGetProducts } = useProduct()
   useEffect(() => {
-    onGetProducts()
+    const result = onGetProducts()
   }, [])
   return (
     <Box my='50px'>

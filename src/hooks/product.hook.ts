@@ -7,9 +7,11 @@ import {
   addProductAction,
   setProductsAction,
   addVariantAction,
+  deleteVariantAction,
 } from '~/stores/product.store'
 import { useEffect } from 'react'
 import { Variant } from '~/types/variant.type'
+import firebaseDb from '~/utils/firebase'
 
 export const useProduct = () => {
   const productState = useSelector(
@@ -19,10 +21,9 @@ export const useProduct = () => {
   const dispatch = useDispatch()
 
   const onGetProducts = async () => {
-    dispatch(toggleLoading())
-    const users = await getProducts()
-
-    dispatch(setProductsAction(users))
+    return firebaseDb.child('products').on('value', (snapshot) => {
+      dispatch(setProductsAction(snapshot.val() as Product[]))
+    })
   }
 
   const onAddProduct = async (product: Product) => {
@@ -34,10 +35,15 @@ export const useProduct = () => {
     dispatch(addVariantAction({ id, variant }))
   }
 
+  const onDeleteVariant = async (productId: number, variantId: number) => {
+    dispatch(deleteVariantAction({ productId, variantId }))
+  }
+
   return {
     productState,
     onGetProducts,
     onAddProduct,
     onAddVariant,
+    onDeleteVariant,
   }
 }
