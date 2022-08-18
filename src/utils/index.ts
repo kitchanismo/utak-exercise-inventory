@@ -39,8 +39,10 @@ export const mapFirebaseDataToProduct = (data) => {
   products = products
     ?.map((product, i) => ({ ...product, id: ids[i] }))
     .map((product) => {
-      const vIds = Object.keys(product.variants as [])
-      let variants = Object.values(product.variants as []) as Variant[]
+      const vIds = product?.variants ? Object.keys(product?.variants as []) : []
+      let variants = product?.variants
+        ? (Object.values(product?.variants as []) as Variant[])
+        : []
       variants = variants?.map((variant, i) => ({
         ...variant,
         id: vIds[i],
@@ -50,5 +52,6 @@ export const mapFirebaseDataToProduct = (data) => {
         variants,
       }
     })
+
   return products
 }

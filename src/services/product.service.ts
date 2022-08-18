@@ -16,8 +16,7 @@ export const addProduct = (product: Product) => {
 }
 
 export const addVariant = (productId: string, variant: Variant) => {
-  console.log({ productId })
-  const fb = firebaseDb.child(`products/${productId}/variants/`).push(variant)
+  firebaseDb.child(`products/${productId}/variants/`).push(variant)
   ;(err) => {
     if (err) {
       console.log(err)
@@ -25,4 +24,26 @@ export const addVariant = (productId: string, variant: Variant) => {
       console.log('success')
     }
   }
+}
+
+export const deleteProduct = (productId: string) => {
+  firebaseDb.child(`products/${productId}`).remove((err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('success')
+    }
+  })
+}
+
+export const deleteVariant = (productId: string, variantId: string) => {
+  firebaseDb
+    .child(`products/${productId}/variants/${variantId}`)
+    .remove((err) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('success')
+      }
+    })
 }

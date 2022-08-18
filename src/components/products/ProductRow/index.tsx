@@ -20,6 +20,9 @@ import DeleteIcon from '@mui/icons-material/Close'
 import { StyledTableSubCell } from '~/components/common/MyStyledTableSubCell'
 import AddVariantDialog from '../AddVariantDialog'
 import { useProduct } from '~/hooks/product.hook'
+import DeleteDialog from '../DeleteProductDialog'
+import { Variant } from '~/types/variant.type'
+import { capitalize } from '~/utils'
 
 interface ProductTablRowProps {
   product: Product
@@ -28,12 +31,15 @@ interface ProductTablRowProps {
 const ProductRow = ({ product }: ProductTablRowProps) => {
   const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
+  const [openVariant, setOpenVariant] = useState(false)
+  const [openProductDelete, setOpenProductDelete] = useState(false)
+  const [openVariantDelete, setOpenVariantDelete] = useState(false)
+  const [selectedVariant, setSelectedVariant] = useState<Variant>()
+  const { onDeleteProduct, onDeleteVariant } = useProduct()
 
   useEffect(() => {
     setOpen(!hasNoVariant)
   }, [hasNoVariant])
-
-  const [openVariant, setOpenVariant] = useState(false)
 
   return (
     <React.Fragment>
@@ -41,12 +47,26 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         product={product}
         openState={[openVariant, setOpenVariant]}
       />
+      <DeleteDialog
+        onDelete={() => onDeleteProduct(product?.id as string)}
+        name={product?.name}
+        openState={[openProductDelete, setOpenProductDelete]}
+      />
+      <DeleteDialog
+        onDelete={async () => {
+          onDeleteVariant(product?.id as string, selectedVariant?.id as string)
+          setOpenVariantDelete(false)
+        }}
+        name={`${product?.name} (${selectedVariant?.name})`}
+        openState={[openVariantDelete, setOpenVariantDelete]}
+      />
+
       <TableRow
         sx={{
           '& > *': { borderBottom: 'unset' },
         }}
       >
-        <StyledTableCell>{product?.name}</StyledTableCell>
+        <StyledTableCell>{capitalize(product?.name)}</StyledTableCell>
         <StyledTableCell align='right'>{product?.category}</StyledTableCell>
         <StyledTableCell align='right'>
           {hasNoVariant ? product?.price : '-'}
@@ -85,7 +105,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
               </IconButton>
             </Tooltip>
             <Tooltip title='DELETE PRODUCT'>
-              <IconButton aria-label='expand row' size='medium'>
+              <IconButton
+                onClick={() => setOpenProductDelete(true)}
+                aria-label='expand row'
+                size='medium'
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -137,26 +161,41 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                 </TableHead>
                 <TableBody>
                   {(product?.variants || [])?.map((variant) => (
-                    <TableRow key={variant?.id}>
-                      <StyledTableSubCell>{variant.name}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.price}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.cost}</StyledTableSubCell>
-                      <StyledTableSubCell>{variant?.stock}</StyledTableSubCell>
-                      <StyledTableSubCell>
-                        <>
-                          <Tooltip title='EDIT OPTION'>
-                            <IconButton aria-label='expand row' size='medium'>
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title='DELETE OPTION'>
-                            <IconButton aria-label='expand row' size='medium'>
-                              <DeleteIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </>
-                      </StyledTableSubCell>
-                    </TableRow>
+                    <React.Fragment key={variant?.id}>
+                      <TableRow>
+                        <StyledTableSubCell>
+                          {capitalize(variant.name)}
+                        </StyledTableSubCell>
+                        <StyledTableSubCell>
+                          {variant?.price}
+                        </StyledTableSubCell>
+                        <StyledTableSubCell>{variant?.cost}</StyledTableSubCell>
+                        <StyledTableSubCell>
+                          {variant?.stock}
+                        </StyledTableSubCell>
+                        <StyledTableSubCell>
+                          <>
+                            <Tooltip title='EDIT OPTION'>
+                              <IconButton aria-label='expand row' size='medium'>
+                                <EditIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title='DELETE OPTION'>
+                              <IconButton
+                                onClick={() => {
+                                  setOpenVariantDelete(true)
+                                  setSelectedVariant(variant)
+                                }}
+                                aria-label='expand row'
+                                size='medium'
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Tooltip>
+                          </>
+                        </StyledTableSubCell>
+                      </TableRow>
+                    </React.Fragment>
                   ))}
                 </TableBody>
               </Table>
