@@ -32,7 +32,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useAddProductForm({})
 
@@ -46,6 +46,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
 
   const onSave = (product: Partial<Product>) => {
     onAddProduct(product as Product)
+    setOpen(false)
   }
 
   return (
@@ -97,7 +98,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
               helperText={errors['stock']?.message}
             />
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+          <Box sx={{ display: 'flex', pt: 2 }}>
             <FormControl fullWidth>
               <InputLabel htmlFor='outlined-adornment-price'>Price</InputLabel>
               <OutlinedInput
@@ -142,6 +143,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
               variant='contained'
               color='secondary'
               startIcon={<SaveIcon />}
+              disabled={!isValid}
             >
               Save
             </Button>
