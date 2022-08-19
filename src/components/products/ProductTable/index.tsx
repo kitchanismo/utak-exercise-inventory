@@ -32,7 +32,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className='table-shadow'>
       <Table sx={{ minWidth: 700 }} aria-label='simple table'>
         <TableHead>
           <TableRow>

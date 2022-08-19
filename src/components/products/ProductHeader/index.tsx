@@ -16,10 +16,10 @@ const ProductHeader = () => {
       }}
     >
       <Box>
-        <Typography variant='h5' color='primary'>
+        <Typography variant='h5' sx={{ color: 'white' }}>
           Product Management
         </Typography>
-        <Typography variant='caption'>
+        <Typography variant='subtitle1' sx={{ color: '#eeeeee' }}>
           View list, add, edit and delete products
         </Typography>
       </Box>
