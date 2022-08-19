@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -43,22 +44,32 @@ const ProductTable = ({ products }: ProductTableProps) => {
       const isActive = category === productState?.selectedTab
 
       return (
-        <Button
-          onClick={() => {
-            onSelectedTab(category)
-          }}
-          variant={isActive ? 'contained' : 'outlined'}
+        <Badge
+          about=''
+          badgeContent={isActive ? productState?.products?.length : null}
           sx={{
-            bgcolor: isActive ? 'secondary.main' : undefined,
-            mr: 2,
-            '&:hover': {
-              bgcolor: isActive ? 'white' : undefined,
+            '& .MuiBadge-badge': {
+              backgroundColor: 'white',
             },
-            color: isActive ? undefined : 'white',
           }}
         >
-          {category}
-        </Button>
+          <Button
+            onClick={() => {
+              onSelectedTab(category)
+            }}
+            variant={isActive ? 'contained' : 'outlined'}
+            sx={{
+              bgcolor: isActive ? 'secondary.main' : undefined,
+              ml: 2,
+              '&:hover': {
+                bgcolor: isActive ? 'white' : undefined,
+              },
+              color: isActive ? undefined : 'white',
+            }}
+          >
+            {category}
+          </Button>
+        </Badge>
       )
     })
   }
@@ -70,10 +81,11 @@ const ProductTable = ({ products }: ProductTableProps) => {
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center',
-          height: 60,
-          width: '100%',
+          height: 70,
+          width: 'auto',
           background:
             'linear-gradient(270deg, rgba(52,177,161,1) 50%, rgba(220,231,117,1) 100%)',
+          pr: 1,
         }}
       >
         {renderCategoryTabs()}
