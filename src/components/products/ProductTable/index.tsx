@@ -98,7 +98,9 @@ const ProductTable = ({ products }: ProductTableProps) => {
             <StyledTableCell align='right'>Price</StyledTableCell>
             <StyledTableCell align='right'>Cost</StyledTableCell>
             <StyledTableCell align='right'>Stock</StyledTableCell>
-            <StyledTableCell align='center'>Actions</StyledTableCell>
+            <StyledTableCell sx={{ pl: 10, width: 150 }} align='center'>
+              Actions
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

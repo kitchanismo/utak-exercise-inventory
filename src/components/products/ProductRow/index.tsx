@@ -84,7 +84,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         <StyledTableCell align='right'>
           {hasNoVariant ? product?.stock : '-'}
         </StyledTableCell>
-        <StyledTableCell align='center'>
+        <StyledTableCell sx={{ pl: 10, width: 150 }} align='center'>
           <>
             {hasNoVariant && (
               <Tooltip title='ADD OPTION'>
