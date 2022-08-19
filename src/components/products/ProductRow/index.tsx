@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { StyledTableCell } from '~/components/common/MyStyledTableCell'
@@ -152,9 +153,12 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'space-between',
                 }}
               >
+                <Typography variant='h6' color='primary'>
+                  {capitalize(product?.name) + ' Options'}
+                </Typography>
                 <Button
                   size='medium'
                   startIcon={<AddIcon />}
@@ -173,7 +177,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
               <Table size='small' aria-label='purchases'>
                 <TableHead>
                   <TableRow>
-                    <StyledTableSubCell>Options</StyledTableSubCell>
+                    <StyledTableSubCell>Name</StyledTableSubCell>
                     <StyledTableSubCell>Price</StyledTableSubCell>
                     <StyledTableSubCell>Cost</StyledTableSubCell>
                     <StyledTableSubCell>Stock</StyledTableSubCell>
