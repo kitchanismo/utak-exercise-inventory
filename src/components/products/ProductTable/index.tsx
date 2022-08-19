@@ -94,10 +94,10 @@ const ProductTable = ({ products }: ProductTableProps) => {
         <TableHead>
           <TableRow>
             <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align='center'>Category</StyledTableCell>
-            <StyledTableCell align='center'>Price</StyledTableCell>
-            <StyledTableCell align='center'>Cost</StyledTableCell>
-            <StyledTableCell align='center'>Stock</StyledTableCell>
+            <StyledTableCell align='left'>Category</StyledTableCell>
+            <StyledTableCell align='right'>Price</StyledTableCell>
+            <StyledTableCell align='right'>Cost</StyledTableCell>
+            <StyledTableCell align='right'>Stock</StyledTableCell>
             <StyledTableCell align='center'>Actions</StyledTableCell>
           </TableRow>
         </TableHead>

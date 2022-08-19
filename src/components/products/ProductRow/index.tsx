@@ -74,14 +74,14 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         onClick={() => (!hasNoVariant ? setOpen(!open) : null)}
       >
         <StyledTableCell>{capitalize(product?.name)}</StyledTableCell>
-        <StyledTableCell align='center'>{product?.category}</StyledTableCell>
-        <StyledTableCell align='center'>
+        <StyledTableCell align='left'>{product?.category}</StyledTableCell>
+        <StyledTableCell align='right'>
           {hasNoVariant ? toMoney(product?.price) : '-'}
         </StyledTableCell>
-        <StyledTableCell align='center'>
+        <StyledTableCell align='right'>
           {hasNoVariant ? toMoney(product?.cost) : '-'}
         </StyledTableCell>
-        <StyledTableCell align='center'>
+        <StyledTableCell align='right'>
           {hasNoVariant ? product?.stock : '-'}
         </StyledTableCell>
         <StyledTableCell align='center'>
@@ -178,13 +178,9 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                 <TableHead>
                   <TableRow>
                     <StyledTableSubCell>Name</StyledTableSubCell>
-                    <StyledTableSubCell align='center'>
-                      Price
-                    </StyledTableSubCell>
-                    <StyledTableSubCell align='center'>Cost</StyledTableSubCell>
-                    <StyledTableSubCell align='center'>
-                      Stock
-                    </StyledTableSubCell>
+                    <StyledTableSubCell align='right'>Price</StyledTableSubCell>
+                    <StyledTableSubCell align='right'>Cost</StyledTableSubCell>
+                    <StyledTableSubCell align='right'>Stock</StyledTableSubCell>
                     <StyledTableSubCell align='center'>
                       Actions
                     </StyledTableSubCell>
@@ -197,13 +193,13 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                         <StyledTableSubCell>
                           {capitalize(variant.name)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell align='center'>
+                        <StyledTableSubCell align='right'>
                           {toMoney(variant?.price)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell align='center'>
+                        <StyledTableSubCell align='right'>
                           {toMoney(variant?.cost)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell align='center'>
+                        <StyledTableSubCell align='right'>
                           {variant?.stock}
                         </StyledTableSubCell>
                         <StyledTableSubCell align='center'>
