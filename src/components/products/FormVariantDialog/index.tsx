@@ -23,14 +23,18 @@ import { useProduct } from '~/hooks/product.hook'
 import { useAddVariantForm } from '~/forms/variant.from'
 import { Variant } from '~/types/variant.type'
 
-interface AddVariantDialogProps {
-  openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
-  product: Product
-}
+// interface AddVariantDialogProps {
+//   product: Product
+// }
 
-const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
-  const [open, setOpen] = openState
-  const { onAddVariant } = useProduct()
+const FormVariantDialog = () => {
+  const { onAddVariant, productState, onOpenVariantForm, onEditVariant } =
+    useProduct()
+
+  const variant = productState?.selectedVariant
+  const product = productState?.selectedProduct
+
+  console.log({ product, variant })
 
   const {
     register,
@@ -39,21 +43,37 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
     reset,
   } = useAddVariantForm({})
 
+  // useEffect(() => {
+  //   reset({})
+  // }, [productState?.openVariantForm])
+
   useEffect(() => {
-    reset({})
-  }, [open])
+    if (variant?.id) {
+      reset({})
+      return
+    }
+  }, [variant?.id])
 
   const handleClose = () => {
-    setOpen(false)
+    onOpenVariantForm(false)
   }
 
-  const onSave = (variant: Partial<Variant>) => {
-    onAddVariant(product?.id as string, variant as Variant)
-    setOpen(false)
+  const onSave = (newVariant: Partial<Variant>) => {
+    if (variant?.id) {
+      const { name, cost, price, stock } = newVariant
+      onEditVariant(
+        product?.id as string,
+        { id: variant?.id, name, cost, price, stock } as Variant
+      )
+      onOpenVariantForm(false)
+      return
+    }
+    onAddVariant(product?.id as string, newVariant as Variant)
+    onOpenVariantForm(false)
   }
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={productState?.openVariantForm} onClose={handleClose}>
       <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
         Add New Option - {product?.name}
       </DialogTitle>
@@ -67,6 +87,7 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
             type='text'
             fullWidth
             variant='outlined'
+            defaultValue={variant?.name}
             FormHelperTextProps={{ sx: { color: 'red' } }}
             helperText={errors['name']?.message}
           />
@@ -81,6 +102,7 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
                   <InputAdornment position='start'>₱</InputAdornment>
                 }
                 label='Price'
+                defaultValue={variant?.price}
               />
               {errors['price'] && (
                 <FormHelperText sx={{ color: 'red' }}>
@@ -97,6 +119,7 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
                 startAdornment={
                   <InputAdornment position='start'>₱</InputAdornment>
                 }
+                defaultValue={variant?.cost}
                 label='Cost'
               />
               {errors['cost'] && (
@@ -113,6 +136,7 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
               type='text'
               fullWidth
               variant='outlined'
+              defaultValue={variant?.stock}
               FormHelperTextProps={{ sx: { color: 'red' } }}
               helperText={errors['stock']?.message}
               sx={{ mt: 0 }}
@@ -139,4 +163,4 @@ const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
   )
 }
 
-export default AddVariantDialog
+export default FormVariantDialog

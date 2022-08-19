@@ -1,5 +1,7 @@
 import { Box } from '@mui/system'
 import { useEffect } from 'react'
+import FormProductDialog from '~/components/products/FormProductDialog'
+import FormVariantDialog from '~/components/products/FormVariantDialog'
 import ProductHeader from '~/components/products/ProductHeader'
 import ProductTable from '~/components/products/ProductTable'
 import { useAddProductForm } from '~/forms/product.form'
@@ -15,6 +17,8 @@ const ProductsPage = () => {
   }, [])
   return (
     <Box my='50px'>
+      {productState?.openVariantForm && <FormVariantDialog />}
+      {productState?.openProductForm && <FormProductDialog />}
       <ProductHeader />
       <ProductTable products={productState?.products} />
     </Box>

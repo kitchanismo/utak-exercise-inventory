@@ -37,6 +37,17 @@ export const editProduct = (product: Product) => {
   }
 }
 
+export const editVariant = (productId: string, variant: Variant) => {
+  firebaseDb.child(`products/${productId}/variants/${variant?.id}`).set(variant)
+  ;(err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('success')
+    }
+  }
+}
+
 export const deleteProduct = (productId: string) => {
   firebaseDb.child(`products/${productId}`).remove((err) => {
     if (err) {

@@ -18,11 +18,12 @@ import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Close'
 import { StyledTableSubCell } from '~/components/common/MyStyledTableSubCell'
-import AddVariantDialog from '../AddVariantDialog'
+import FormVariantDialog from '../FormVariantDialog'
 import { useProduct } from '~/hooks/product.hook'
 import DeleteDialog from '../DeleteProductDialog'
 import { Variant } from '~/types/variant.type'
 import { capitalize } from '~/utils'
+import { setSelectedProduct } from '~/stores/product.store'
 
 interface ProductTablRowProps {
   product: Product
@@ -31,11 +32,18 @@ interface ProductTablRowProps {
 const ProductRow = ({ product }: ProductTablRowProps) => {
   const hasNoVariant = !product?.variants || product?.variants?.length === 0
   const [open, setOpen] = React.useState(!hasNoVariant)
-  const [openVariant, setOpenVariant] = useState(false)
+
   const [openProductDelete, setOpenProductDelete] = useState(false)
   const [openVariantDelete, setOpenVariantDelete] = useState(false)
   const [selectedVariant, setSelectedVariant] = useState<Variant>()
-  const { onDeleteProduct, onDeleteVariant, onSelectedProduct } = useProduct()
+  const {
+    onDeleteProduct,
+    onDeleteVariant,
+    onSelectedProduct,
+    onOpenProductForm,
+    onOpenVariantForm,
+    onSelectedVariant,
+  } = useProduct()
 
   useEffect(() => {
     setOpen(!hasNoVariant)
@@ -43,10 +51,6 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
 
   return (
     <React.Fragment>
-      <AddVariantDialog
-        product={product}
-        openState={[openVariant, setOpenVariant]}
-      />
       <DeleteDialog
         onDelete={() => onDeleteProduct(product?.id as string)}
         name={product?.name}
@@ -82,7 +86,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
             {hasNoVariant && (
               <Tooltip title='ADD OPTION'>
                 <IconButton
-                  onClick={() => setOpenVariant(true)}
+                  onClick={() => {
+                    onOpenVariantForm(true)
+                    onSelectedVariant(null)
+                    onSelectedProduct(product)
+                  }}
                   aria-label='expand row'
                   size='large'
                 >
@@ -101,7 +109,10 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
             )}
             <Tooltip title='EDIT PRODUCT'>
               <IconButton
-                onClick={() => onSelectedProduct(product)}
+                onClick={() => {
+                  onSelectedProduct(product)
+                  onOpenProductForm(true)
+                }}
                 aria-label='expand row'
                 size='medium'
               >
@@ -147,7 +158,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                   startIcon={<AddIcon />}
                   variant='contained'
                   color='secondary'
-                  onClick={() => setOpenVariant(true)}
+                  onClick={() => {
+                    onOpenVariantForm(true)
+                    onSelectedVariant(null)
+                    onSelectedProduct(product)
+                  }}
                 >
                   New Option
                 </Button>
@@ -180,7 +195,14 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                         <StyledTableSubCell>
                           <>
                             <Tooltip title='EDIT OPTION'>
-                              <IconButton aria-label='expand row' size='medium'>
+                              <IconButton
+                                onClick={() => {
+                                  onSelectedVariant(variant)
+                                  onSelectedProduct(product)
+                                }}
+                                aria-label='expand row'
+                                size='medium'
+                              >
                                 <EditIcon />
                               </IconButton>
                             </Tooltip>

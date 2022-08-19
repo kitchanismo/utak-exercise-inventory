@@ -6,18 +6,24 @@ import { Variant } from '~/types/variant.type'
 export interface IProductStore {
   products: Product[]
   openProductForm: boolean
+  openVariantForm: boolean
   selectedProduct: Product | null
+  selectedVariant: Variant | null
 }
 
 const state: IProductStore = {
   products: [],
+  openVariantForm: false,
   openProductForm: false,
   selectedProduct: null,
+  selectedVariant: null,
 }
 
 export const setProductsAction = createAction<Product[]>('SET_PRODUCTS')
 export const setOpenProductForm = createAction<boolean>('SET_OPEN_PRODUCT_FORM')
+export const setOpenVariantForm = createAction<boolean>('SET_OPEN_VARIANT_FORM')
 export const setSelectedProduct = createAction<Product | null>('SET_PRODUCT')
+export const setSelectedVariant = createAction<Variant | null>('SET_VARIANT')
 export const addProductAction = createAction<Product>('ADD_PRODUCT')
 export const deleteProductAction = createAction<string>('DELETE_PRODUCT')
 export const deleteVariantAction = createAction<{
@@ -58,6 +64,15 @@ const productStore = createReducer(state, (builder) => {
   builder.addCase(setSelectedProduct, (state, action) => ({
     ...state,
     selectedProduct: action.payload,
+  }))
+  builder.addCase(setOpenVariantForm, (state, action) => ({
+    ...state,
+    openVariantForm: action.payload,
+  }))
+
+  builder.addCase(setSelectedVariant, (state, action) => ({
+    ...state,
+    selectedVariant: action.payload,
   }))
 })
 

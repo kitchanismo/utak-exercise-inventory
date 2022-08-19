@@ -3,10 +3,9 @@ import { Box } from '@mui/system'
 import AddIcon from '@mui/icons-material/Add'
 import { useState } from 'react'
 import { useProduct } from '~/hooks/product.hook'
-import FormProductDialog from '~/components/products/FormProductDialog'
 
 const ProductHeader = () => {
-  const { onOpenProductForm, productState, onSelectedProduct } = useProduct()
+  const { onOpenProductForm, onSelectedProduct } = useProduct()
   return (
     <Box
       sx={{
@@ -16,7 +15,6 @@ const ProductHeader = () => {
         alignItems: 'center',
       }}
     >
-      {productState?.openProductForm && <FormProductDialog />}
       <Box>
         <Typography variant='h5' color='primary'>
           Product Management
