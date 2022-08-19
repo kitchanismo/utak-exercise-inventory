@@ -1,8 +1,11 @@
 import { Variant } from './variant.type'
 
 export enum Category {
-  DESSERT = 'Dessert',
-  MEAL = 'Meal',
+  STARTERS = 'Starters',
+  MAINS = 'Mains',
+  COMBOS = 'Combos',
+  DESSERT = 'Desserts',
+  SIDES = 'Sides',
   DRINKS = 'Drinks',
 }
 

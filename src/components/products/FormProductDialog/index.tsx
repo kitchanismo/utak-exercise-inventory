@@ -86,9 +86,14 @@ const FormProductDialog = () => {
                 label='Category'
                 defaultValue={product?.category}
               >
+                <MenuItem value={Category.STARTERS}>
+                  {Category.STARTERS}
+                </MenuItem>
+                <MenuItem value={Category.MAINS}>{Category.MAINS}</MenuItem>
+                <MenuItem value={Category.COMBOS}>{Category.COMBOS}</MenuItem>
                 <MenuItem value={Category.DESSERT}>{Category.DESSERT}</MenuItem>
+                <MenuItem value={Category.SIDES}>{Category.SIDES}</MenuItem>
                 <MenuItem value={Category.DRINKS}>{Category.DRINKS}</MenuItem>
-                <MenuItem value={Category.MEAL}>{Category.MEAL}</MenuItem>
               </Select>
               {errors['category'] && (
                 <FormHelperText sx={{ color: 'red' }}>
