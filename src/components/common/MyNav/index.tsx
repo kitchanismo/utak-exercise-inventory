@@ -11,8 +11,8 @@ export default function MyNav(props) {
         sx={{
           paddingX: 0,
           marginX: 0,
-          background:
-            'linear-gradient(98deg, rgba(52,177,161,1) 54%, rgba(220,231,117,1) 100%)',
+          background: (theme) =>
+            `linear-gradient(98deg,${theme.palette?.primary.main} 40%, ${theme.palette?.secondary.main} 100%)`,
         }}
       >
         <Container maxWidth='xl'>

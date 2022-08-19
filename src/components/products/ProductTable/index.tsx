@@ -83,8 +83,8 @@ const ProductTable = ({ products }: ProductTableProps) => {
           alignItems: 'center',
           height: 70,
           width: 'auto',
-          background:
-            'linear-gradient(270deg, rgba(52,177,161,1) 50%, rgba(220,231,117,1) 100%)',
+          background: (theme) =>
+            `linear-gradient(270deg, ${theme.palette?.primary.main} 30%, ${theme.palette?.secondary.main} 100%)`,
           pr: 3,
         }}
       >
