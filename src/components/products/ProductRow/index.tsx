@@ -35,7 +35,7 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
   const [openProductDelete, setOpenProductDelete] = useState(false)
   const [openVariantDelete, setOpenVariantDelete] = useState(false)
   const [selectedVariant, setSelectedVariant] = useState<Variant>()
-  const { onDeleteProduct, onDeleteVariant } = useProduct()
+  const { onDeleteProduct, onDeleteVariant, onSelectedProduct } = useProduct()
 
   useEffect(() => {
     setOpen(!hasNoVariant)
@@ -100,7 +100,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
               </IconButton>
             )}
             <Tooltip title='EDIT PRODUCT'>
-              <IconButton aria-label='expand row' size='medium'>
+              <IconButton
+                onClick={() => onSelectedProduct(product)}
+                aria-label='expand row'
+                size='medium'
+              >
                 <EditIcon />
               </IconButton>
             </Tooltip>

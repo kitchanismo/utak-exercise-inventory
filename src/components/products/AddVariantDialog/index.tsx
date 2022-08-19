@@ -30,7 +30,7 @@ interface AddVariantDialogProps {
 
 const AddVariantDialog = ({ openState, product }: AddVariantDialogProps) => {
   const [open, setOpen] = openState
-  const { onAddProduct, onAddVariant } = useProduct()
+  const { onAddVariant } = useProduct()
 
   const {
     register,

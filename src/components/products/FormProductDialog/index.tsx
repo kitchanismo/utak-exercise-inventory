@@ -18,41 +18,51 @@ import {
 } from '@mui/material'
 import { Category, Product } from '~/types/product.type'
 import { useAddProductForm } from '~/forms/product.form'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useProduct } from '~/hooks/product.hook'
 
-interface AddProductDialogProps {
-  openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>]
-}
+const FormProductDialog = () => {
+  const { onAddProduct, onOpenProductForm, productState, onEditProduct } =
+    useProduct()
+  const product = productState?.selectedProduct
 
-const AddProductDialog = ({ openState }: AddProductDialogProps) => {
-  const [open, setOpen] = openState
-  const { onAddProduct } = useProduct()
+  console.log(product)
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors, isValid },
     reset,
-  } = useAddProductForm({})
+  } = useAddProductForm(product as Product)
 
   useEffect(() => {
-    reset({})
-  }, [open])
+    if (product?.id) {
+      reset({})
+      return
+    }
+  }, [product?.id])
 
   const handleClose = () => {
-    setOpen(false)
+    onOpenProductForm(false)
+    reset({})
   }
 
-  const onSave = (product: Partial<Product>) => {
-    onAddProduct(product as Product)
-    setOpen(false)
+  const onSave = (_product: Partial<Product>) => {
+    if (product?.id) {
+      const updatedProduct = { ...product, ..._product }
+      onEditProduct(updatedProduct as Product)
+      onOpenProductForm(false)
+      return
+    }
+    onAddProduct(_product as Product)
+    onOpenProductForm(false)
   }
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={productState?.openProductForm} onClose={handleClose}>
       <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
-        Add New Product
+        {product?.id ? 'Edit' : 'Add New'} Product
       </DialogTitle>
       <Box sx={{ minWidth: 550, p: 2, px: 3 }}>
         <form noValidate onSubmit={handleSubmit(onSave)}>
@@ -63,6 +73,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
             label='Product Name'
             type='text'
             fullWidth
+            defaultValue={product?.name}
             variant='outlined'
             FormHelperTextProps={{ sx: { color: 'red' } }}
             helperText={errors['name']?.message}
@@ -75,6 +86,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
                 label='Category'
+                defaultValue={product?.category}
               >
                 <MenuItem value={Category.DESSERT}>{Category.DESSERT}</MenuItem>
                 <MenuItem value={Category.DRINKS}>{Category.DRINKS}</MenuItem>
@@ -89,6 +101,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
             <Box p={1} />
             <TextField
               {...register('stock')}
+              defaultValue={product?.stock}
               margin='dense'
               label='Stock'
               type='text'
@@ -108,6 +121,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
                   <InputAdornment position='start'>₱</InputAdornment>
                 }
                 label='Price'
+                defaultValue={product?.price}
               />
               {errors['price'] && (
                 <FormHelperText sx={{ color: 'red' }}>
@@ -120,6 +134,7 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
               <InputLabel htmlFor='outlined-adornment-cost'>Cost</InputLabel>
               <OutlinedInput
                 {...register('cost')}
+                defaultValue={product?.cost}
                 id='outlined-adornment-cost'
                 startAdornment={
                   <InputAdornment position='start'>₱</InputAdornment>
@@ -154,4 +169,4 @@ const AddProductDialog = ({ openState }: AddProductDialogProps) => {
   )
 }
 
-export default AddProductDialog
+export default FormProductDialog

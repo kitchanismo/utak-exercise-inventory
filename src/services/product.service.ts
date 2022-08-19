@@ -26,6 +26,17 @@ export const addVariant = (productId: string, variant: Variant) => {
   }
 }
 
+export const editProduct = (product: Product) => {
+  firebaseDb.child(`products/${product?.id}/`).set(product)
+  ;(err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('success')
+    }
+  }
+}
+
 export const deleteProduct = (productId: string) => {
   firebaseDb.child(`products/${productId}`).remove((err) => {
     if (err) {

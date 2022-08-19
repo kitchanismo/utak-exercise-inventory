@@ -5,12 +5,15 @@ import {
   addVariant,
   deleteProduct,
   deleteVariant,
+  editProduct,
 } from '~/services/product.service'
 import { ApplicationReducers } from '~/stores'
 import {
   setProductsAction,
   deleteProductAction,
   deleteVariantAction,
+  setOpenProductForm,
+  setSelectedProduct,
 } from '~/stores/product.store'
 import { Variant } from '~/types/variant.type'
 import firebaseDb from '~/utils/firebase'
@@ -53,6 +56,19 @@ export const useProduct = () => {
     //dispatch(deleteVariantAction({ productId, variantId }))
   }
 
+  const onOpenProductForm = (open: boolean) => {
+    dispatch(setOpenProductForm(open))
+  }
+
+  const onSelectedProduct = (product: Product | null) => {
+    dispatch(setSelectedProduct(product))
+    dispatch(setOpenProductForm(true))
+  }
+
+  const onEditProduct = async (product: Product) => {
+    await editProduct(product)
+  }
+
   return {
     productState,
     onGetProducts,
@@ -60,5 +76,8 @@ export const useProduct = () => {
     onAddVariant,
     onDeleteProduct,
     onDeleteVariant,
+    onOpenProductForm,
+    onSelectedProduct,
+    onEditProduct,
   }
 }

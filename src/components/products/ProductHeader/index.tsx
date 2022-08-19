@@ -1,11 +1,12 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import AddIcon from '@mui/icons-material/Add'
-import AddProductDialog from '../AddProductDialog'
 import { useState } from 'react'
+import { useProduct } from '~/hooks/product.hook'
+import FormProductDialog from '~/components/products/FormProductDialog'
 
 const ProductHeader = () => {
-  const [open, setOpen] = useState(false)
+  const { onOpenProductForm, productState, onSelectedProduct } = useProduct()
   return (
     <Box
       sx={{
@@ -15,7 +16,7 @@ const ProductHeader = () => {
         alignItems: 'center',
       }}
     >
-      <AddProductDialog openState={[open, setOpen]} />
+      {productState?.openProductForm && <FormProductDialog />}
       <Box>
         <Typography variant='h5' color='primary'>
           Product Management
@@ -30,7 +31,10 @@ const ProductHeader = () => {
         startIcon={<AddIcon />}
         variant='contained'
         color='secondary'
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          onSelectedProduct(null)
+          onOpenProductForm(true)
+        }}
       >
         New Product
       </Button>
