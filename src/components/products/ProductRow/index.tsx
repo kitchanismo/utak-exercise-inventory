@@ -154,6 +154,8 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                   width: '100%',
                   display: 'flex',
                   justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 1,
                 }}
               >
                 <Typography variant='h6' color='primary'>
