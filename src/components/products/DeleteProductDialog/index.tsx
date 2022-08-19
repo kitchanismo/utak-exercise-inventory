@@ -22,10 +22,12 @@ const DeleteDialog = ({ openState, name, onDelete }: DeleteDialogProps) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
-        Are you sure you want to delete?
+      <DialogTitle sx={{ bgcolor: '#e81e62', color: 'white' }}>
+        Confirm Deletion
       </DialogTitle>
-      <DialogTitle>{capitalize(name)}</DialogTitle>
+      <DialogTitle>
+        Are you sure you want to delete {capitalize(name)}?
+      </DialogTitle>
       <Box sx={{ minWidth: 550, p: 2, px: 3 }}>
         <DialogActions sx={{ pt: 3 }}>
           <Button sx={{ color: '#555' }} onClick={handleClose}>
@@ -34,12 +36,7 @@ const DeleteDialog = ({ openState, name, onDelete }: DeleteDialogProps) => {
           <Button
             type='submit'
             variant='contained'
-            sx={{
-              bgcolor: '#ff6090',
-              '&:hover': {
-                backgroundColor: '#e91e63',
-              },
-            }}
+            color='secondary'
             startIcon={<SaveIcon />}
             onClick={onDelete}
           >

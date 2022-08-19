@@ -16,10 +16,12 @@ import {
   setOpenProductForm,
   setSelectedProduct,
   setOpenVariantForm,
+  setSelectedTab,
 } from '~/stores/product.store'
 import { Variant } from '~/types/variant.type'
 import firebaseDb from '~/utils/firebase'
 import { mapFirebaseDataToProduct } from '~/utils'
+import { useEffect } from 'react'
 
 export const useProduct = () => {
   const productState = useSelector(
@@ -27,6 +29,10 @@ export const useProduct = () => {
   )
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    onGetProducts()
+  }, [productState?.selectedTab])
 
   const onGetProducts = () => {
     const productsFireBase = firebaseDb.child('products')
@@ -83,6 +89,10 @@ export const useProduct = () => {
     dispatch(setOpenVariantForm(true))
   }
 
+  const onSelectedTab = (tab: string) => {
+    dispatch(setSelectedTab(tab))
+  }
+
   return {
     productState,
     onGetProducts,
@@ -96,5 +106,6 @@ export const useProduct = () => {
     onOpenVariantForm,
     onSelectedVariant,
     onEditVariant,
+    onSelectedTab,
   }
 }

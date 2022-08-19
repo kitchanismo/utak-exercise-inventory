@@ -27,23 +27,26 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Close'
 import { StyledTableCell } from '~/components/common/MyStyledTableCell'
 import ProductRow from '../ProductRow'
+import { useProduct } from '~/hooks/product.hook'
 
 interface ProductTableProps {
   products: Product[]
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
-  const [activeCategory, setActiveCategory] = React.useState('All')
+  const { onSelectedTab, productState } = useProduct()
 
   const categories = ['All', ...Object.values(Category)]
 
   const renderCategoryTabs = () => {
     return categories?.map((category) => {
-      const isActive = category === activeCategory
+      const isActive = category === productState?.selectedTab
 
       return (
         <Button
-          onClick={() => setActiveCategory(category)}
+          onClick={() => {
+            onSelectedTab(category)
+          }}
           variant={isActive ? 'contained' : 'outlined'}
           sx={{
             bgcolor: isActive ? 'secondary.main' : undefined,
@@ -79,11 +82,11 @@ const ProductTable = ({ products }: ProductTableProps) => {
         <TableHead>
           <TableRow>
             <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align='right'>Category</StyledTableCell>
-            <StyledTableCell align='right'>Price</StyledTableCell>
-            <StyledTableCell align='right'>Cost</StyledTableCell>
-            <StyledTableCell align='right'>Stock</StyledTableCell>
-            <StyledTableCell align='right'>Actions</StyledTableCell>
+            <StyledTableCell align='center'>Category</StyledTableCell>
+            <StyledTableCell align='center'>Price</StyledTableCell>
+            <StyledTableCell align='center'>Cost</StyledTableCell>
+            <StyledTableCell align='center'>Stock</StyledTableCell>
+            <StyledTableCell align='center'>Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -92,6 +95,19 @@ const ProductTable = ({ products }: ProductTableProps) => {
           ))}
         </TableBody>
       </Table>
+      {productState?.products?.length === 0 && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: 100,
+          }}
+        >
+          <Typography variant='h6'>No products found</Typography>
+        </Box>
+      )}
     </TableContainer>
   )
 }

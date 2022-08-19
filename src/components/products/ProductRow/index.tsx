@@ -74,17 +74,17 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         onClick={() => (!hasNoVariant ? setOpen(!open) : null)}
       >
         <StyledTableCell>{capitalize(product?.name)}</StyledTableCell>
-        <StyledTableCell align='right'>{product?.category}</StyledTableCell>
-        <StyledTableCell align='right'>
+        <StyledTableCell align='center'>{product?.category}</StyledTableCell>
+        <StyledTableCell align='center'>
           {hasNoVariant ? toMoney(product?.price) : '-'}
         </StyledTableCell>
-        <StyledTableCell align='right'>
+        <StyledTableCell align='center'>
           {hasNoVariant ? toMoney(product?.cost) : '-'}
         </StyledTableCell>
-        <StyledTableCell align='right'>
+        <StyledTableCell align='center'>
           {hasNoVariant ? product?.stock : '-'}
         </StyledTableCell>
-        <StyledTableCell align='right'>
+        <StyledTableCell align='center'>
           <>
             {hasNoVariant && (
               <Tooltip title='ADD OPTION'>
@@ -178,10 +178,16 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                 <TableHead>
                   <TableRow>
                     <StyledTableSubCell>Name</StyledTableSubCell>
-                    <StyledTableSubCell>Price</StyledTableSubCell>
-                    <StyledTableSubCell>Cost</StyledTableSubCell>
-                    <StyledTableSubCell>Stock</StyledTableSubCell>
-                    <StyledTableSubCell>Actions</StyledTableSubCell>
+                    <StyledTableSubCell align='center'>
+                      Price
+                    </StyledTableSubCell>
+                    <StyledTableSubCell align='center'>Cost</StyledTableSubCell>
+                    <StyledTableSubCell align='center'>
+                      Stock
+                    </StyledTableSubCell>
+                    <StyledTableSubCell align='center'>
+                      Actions
+                    </StyledTableSubCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -191,16 +197,16 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                         <StyledTableSubCell>
                           {capitalize(variant.name)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell>
+                        <StyledTableSubCell align='center'>
                           {toMoney(variant?.price)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell>
+                        <StyledTableSubCell align='center'>
                           {toMoney(variant?.cost)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell>
+                        <StyledTableSubCell align='center'>
                           {variant?.stock}
                         </StyledTableSubCell>
-                        <StyledTableSubCell>
+                        <StyledTableSubCell align='center'>
                           <>
                             <Tooltip title='EDIT OPTION'>
                               <IconButton
