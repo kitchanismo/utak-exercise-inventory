@@ -6,7 +6,7 @@ import { lettersOnly } from '~/utils'
 
 export const useAddVariantForm = (defaultValues: Partial<Variant>) => {
   const addVariantSchema = yup.object().shape({
-    name: lettersOnly('Option Name'),
+    name: yup.string().required().label('Option Name'),
     price: yup
       .number()
       .required()

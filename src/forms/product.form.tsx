@@ -6,7 +6,7 @@ import { lettersOnly } from '~/utils'
 
 export const useAddProductForm = (defaultValues: Partial<Product>) => {
   const addProductSchema = yup.object().shape({
-    name: lettersOnly('Product Name'),
+    name: yup.string().required().label('Product Name'),
     category: yup.string().required().label('Category'),
     price: yup
       .number()
