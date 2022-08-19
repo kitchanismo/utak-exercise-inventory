@@ -10,12 +10,16 @@ import Paper from '@mui/material/Paper'
 import {
   Box,
   Button,
+  ButtonGroup,
+  Chip,
   Collapse,
   IconButton,
+  Tab,
+  Tabs,
   Tooltip,
   Typography,
 } from '@mui/material'
-import { Product } from '~/types/product.type'
+import { Category, Product } from '~/types/product.type'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import AddIcon from '@mui/icons-material/Add'
@@ -29,10 +33,48 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [activeCategory, setActiveCategory] = React.useState('All')
+
+  const categories = ['All', ...Object.values(Category)]
+
+  const renderCategoryTabs = () => {
+    return categories?.map((category) => {
+      const isActive = category === activeCategory
+
+      return (
+        <Button
+          onClick={() => setActiveCategory(category)}
+          variant={isActive ? 'contained' : 'outlined'}
+          sx={{
+            bgcolor: isActive ? 'secondary.main' : undefined,
+            mr: 2,
+            '&:hover': {
+              bgcolor: isActive ? 'white' : undefined,
+            },
+            color: isActive ? undefined : 'white',
+          }}
+        >
+          {category}
+        </Button>
+      )
+    })
+  }
 
   return (
     <TableContainer className='table-shadow'>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          height: 60,
+          width: '100%',
+          background:
+            'linear-gradient(270deg, rgba(52,177,161,1) 50%, rgba(220,231,117,1) 100%)',
+        }}
+      >
+        {renderCategoryTabs()}
+      </Box>
       <Table sx={{ minWidth: 700 }} aria-label='simple table'>
         <TableHead>
           <TableRow>

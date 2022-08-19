@@ -68,7 +68,9 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
       <TableRow
         sx={{
           '& > *': { borderBottom: 'unset' },
+          cursor: !hasNoVariant ? 'pointer' : undefined,
         }}
+        onClick={() => (!hasNoVariant ? setOpen(!open) : null)}
       >
         <StyledTableCell>{capitalize(product?.name)}</StyledTableCell>
         <StyledTableCell align='right'>{product?.category}</StyledTableCell>
