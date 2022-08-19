@@ -85,7 +85,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
           width: 'auto',
           background:
             'linear-gradient(270deg, rgba(52,177,161,1) 50%, rgba(220,231,117,1) 100%)',
-          pr: 1,
+          pr: 3,
         }}
       >
         {renderCategoryTabs()}
