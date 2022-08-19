@@ -22,6 +22,7 @@ import { useEffect } from 'react'
 import { useProduct } from '~/hooks/product.hook'
 import { useAddVariantForm } from '~/forms/variant.from'
 import { Variant } from '~/types/variant.type'
+import { capitalize } from '~/utils'
 
 // interface AddVariantDialogProps {
 //   product: Product
@@ -34,18 +35,12 @@ const FormVariantDialog = () => {
   const variant = productState?.selectedVariant
   const product = productState?.selectedProduct
 
-  console.log({ product, variant })
-
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
     reset,
   } = useAddVariantForm({})
-
-  // useEffect(() => {
-  //   reset({})
-  // }, [productState?.openVariantForm])
 
   useEffect(() => {
     if (variant?.id) {
@@ -75,7 +70,7 @@ const FormVariantDialog = () => {
   return (
     <Dialog open={productState?.openVariantForm} onClose={handleClose}>
       <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>
-        Add New Option - {product?.name}
+        {variant?.id ? 'Edit' : 'Add New'} Option - {capitalize(product?.name)}
       </DialogTitle>
       <Box sx={{ minWidth: 550, p: 2, px: 3 }}>
         <form noValidate onSubmit={handleSubmit(onSave)}>

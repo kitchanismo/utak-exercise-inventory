@@ -22,7 +22,7 @@ import FormVariantDialog from '../FormVariantDialog'
 import { useProduct } from '~/hooks/product.hook'
 import DeleteDialog from '../DeleteProductDialog'
 import { Variant } from '~/types/variant.type'
-import { capitalize } from '~/utils'
+import { capitalize, toMoney } from '~/utils'
 import { setSelectedProduct } from '~/stores/product.store'
 
 interface ProductTablRowProps {
@@ -73,10 +73,10 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
         <StyledTableCell>{capitalize(product?.name)}</StyledTableCell>
         <StyledTableCell align='right'>{product?.category}</StyledTableCell>
         <StyledTableCell align='right'>
-          {hasNoVariant ? product?.price : '-'}
+          {hasNoVariant ? toMoney(product?.price) : '-'}
         </StyledTableCell>
         <StyledTableCell align='right'>
-          {hasNoVariant ? product?.cost : '-'}
+          {hasNoVariant ? toMoney(product?.cost) : '-'}
         </StyledTableCell>
         <StyledTableCell align='right'>
           {hasNoVariant ? product?.stock : '-'}
@@ -186,9 +186,11 @@ const ProductRow = ({ product }: ProductTablRowProps) => {
                           {capitalize(variant.name)}
                         </StyledTableSubCell>
                         <StyledTableSubCell>
-                          {variant?.price}
+                          {toMoney(variant?.price)}
                         </StyledTableSubCell>
-                        <StyledTableSubCell>{variant?.cost}</StyledTableSubCell>
+                        <StyledTableSubCell>
+                          {toMoney(variant?.cost)}
+                        </StyledTableSubCell>
                         <StyledTableSubCell>
                           {variant?.stock}
                         </StyledTableSubCell>

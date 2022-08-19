@@ -26,8 +26,6 @@ const FormProductDialog = () => {
     useProduct()
   const product = productState?.selectedProduct
 
-  console.log(product)
-
   const {
     register,
     handleSubmit,

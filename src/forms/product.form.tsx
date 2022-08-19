@@ -2,7 +2,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Resolver, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { Product } from '~/types/product.type'
-import { lettersOnly } from '~/utils'
 
 export const useAddProductForm = (defaultValues: Partial<Product>) => {
   const addProductSchema = yup.object().shape({
