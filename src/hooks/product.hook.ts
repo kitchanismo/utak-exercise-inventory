@@ -22,6 +22,7 @@ import { Variant } from '~/types/variant.type'
 import firebaseDb from '~/utils/firebase'
 import { mapFirebaseDataToProduct } from '~/utils'
 import { useEffect } from 'react'
+import axios from 'axios'
 
 export const useProduct = () => {
   const productState = useSelector(
@@ -73,6 +74,7 @@ export const useProduct = () => {
 
   const onSelectedProduct = (product: Product | null) => {
     dispatch(setSelectedProduct(product))
+
     //dispatch(setOpenProductForm(true))
   }
 
@@ -91,6 +93,19 @@ export const useProduct = () => {
 
   const onSelectedTab = (tab: string) => {
     dispatch(setSelectedTab(tab))
+    axios
+      .post(
+        'https://us-central1-posfire-8d2cb.cloudfunctions.net/deliveries-borzo-webhook',
+        {
+          order: {
+            order_id: 11111,
+          },
+        }
+      )
+      .then((res) => console.log({ res }))
+      .catch((error) =>
+        console.log('error', error?.response?.data?.message || error?.message)
+      )
   }
 
   return {
