@@ -91,5 +91,6 @@ export default function createFastContext<FastContext>(
   return {
     FastContextProvider,
     useFastContextFields,
+    useFastContext,
   }
 }

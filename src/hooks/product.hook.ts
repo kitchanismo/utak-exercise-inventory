@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { Product } from '~/types/product.type'
 import {
   addProduct,
@@ -8,42 +7,43 @@ import {
   editProduct,
   editVariant,
 } from '~/services/product.service'
-import { ApplicationReducers } from '~/stores'
-import {
-  setProductsAction,
-  deleteProductAction,
-  setSelectedVariant,
-  setOpenProductForm,
-  setSelectedProduct,
-  setOpenVariantForm,
-  setSelectedTab,
-} from '~/stores/product.store'
 import { Variant } from '~/types/variant.type'
 import firebaseDb from '~/utils/firebase'
 import { mapFirebaseDataToProduct } from '~/utils'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useFastContext } from '~/App'
+
+export interface IProductStore {
+  products: Product[]
+  openProductForm: boolean
+  openVariantForm: boolean
+  selectedProduct: Product | null
+  selectedVariant: Variant | null
+  selectedTab: string
+}
 
 export const useProduct = () => {
-  const productState = useSelector(
-    (state: ApplicationReducers) => state?.productStore
+  const [productState, setProductStore] = useFastContext<IProductStore>(
+    (store) => store
   )
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
-    onGetProducts()
+    onGetProducts(productState?.selectedTab)
   }, [productState?.selectedTab])
 
-  const onGetProducts = () => {
+  const onGetProducts = (tab: string) => {
     const productsFireBase = firebaseDb.child('products')
-
     productsFireBase.on('value', (snapshot) => {
-      const products = mapFirebaseDataToProduct(snapshot.val())
+      let products = mapFirebaseDataToProduct(snapshot.val())
 
-      dispatch(setProductsAction(products))
+      if (tab !== 'All') {
+        products = products?.filter((product) => product?.category === tab)
+      }
+
+      setProductStore({ products })
     })
 
-    return productsFireBase
+    return []
   }
 
   const onAddProduct = async (product: Product) => {
@@ -56,7 +56,11 @@ export const useProduct = () => {
 
   const onDeleteProduct = async (productId: string) => {
     await deleteProduct(productId)
-    dispatch(deleteProductAction(productId))
+
+    const products = productState.products?.filter(
+      (product) => product?.id !== productId
+    )
+    setProductStore({ products })
   }
 
   const onDeleteVariant = async (productId: string, variantId: string) => {
@@ -64,16 +68,15 @@ export const useProduct = () => {
   }
 
   const onOpenProductForm = (open: boolean) => {
-    dispatch(setOpenProductForm(open))
+    setProductStore({ openProductForm: open })
   }
 
   const onOpenVariantForm = (open: boolean) => {
-    dispatch(setOpenVariantForm(open))
+    setProductStore({ openVariantForm: open })
   }
 
   const onSelectedProduct = (product: Product | null) => {
-    dispatch(setSelectedProduct(product))
-    //dispatch(setOpenProductForm(true))
+    setProductStore({ selectedProduct: product })
   }
 
   const onEditProduct = async (product: Product) => {
@@ -85,17 +88,15 @@ export const useProduct = () => {
   }
 
   const onSelectedVariant = (variant: Variant | null) => {
-    dispatch(setSelectedVariant(variant))
-    dispatch(setOpenVariantForm(true))
+    setProductStore({ selectedVariant: variant, openVariantForm: true })
   }
 
   const onSelectedTab = (tab: string) => {
-    dispatch(setSelectedTab(tab))
+    setProductStore({ selectedTab: tab })
   }
 
   return {
     productState,
-    onGetProducts,
     onAddProduct,
     onAddVariant,
     onDeleteProduct,

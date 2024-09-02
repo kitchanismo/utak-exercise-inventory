@@ -8,13 +8,7 @@ import { useAddProductForm } from '~/forms/product.form'
 import { useProduct } from '~/hooks/product.hook'
 
 const ProductsPage = () => {
-  const { productState, onGetProducts } = useProduct()
-  useEffect(() => {
-    const result = onGetProducts()
-    return () => {
-      result.onDisconnect()
-    }
-  }, [])
+  const { productState } = useProduct()
   return (
     <Box my='50px'>
       {productState?.openVariantForm && <FormVariantDialog />}
