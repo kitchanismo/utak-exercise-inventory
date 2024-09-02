@@ -11,7 +11,16 @@ import { Variant } from '~/types/variant.type'
 import firebaseDb from '~/utils/firebase'
 import { mapFirebaseDataToProduct } from '~/utils'
 import { useEffect, useState } from 'react'
-import { useFastContext } from '~/App'
+import createFastContext from './fast-context.hook'
+
+export const { FastContextProvider, useFastContext } = createFastContext({
+  products: [],
+  openVariantForm: false,
+  openProductForm: false,
+  selectedProduct: null,
+  selectedVariant: null,
+  selectedTab: 'All',
+} as IProductStore)
 
 export interface IProductStore {
   products: Product[]
