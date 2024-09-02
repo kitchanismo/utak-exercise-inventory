@@ -18,3 +18,12 @@ export type Product = {
   stock: number
   variants?: Variant[] | null
 }
+
+export type ProductStore = {
+  products: Product[]
+  openProductForm: boolean
+  openVariantForm: boolean
+  selectedProduct: Product | null
+  selectedVariant: Variant | null
+  selectedTab: string
+}

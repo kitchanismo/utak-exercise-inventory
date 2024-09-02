@@ -1,4 +1,4 @@
-import { Product } from '~/types/product.type'
+import { Product, ProductStore } from '~/types/product.type'
 import {
   addProduct,
   addVariant,
@@ -20,19 +20,10 @@ export const { FastContextProvider, useFastContext } = createFastContext({
   selectedProduct: null,
   selectedVariant: null,
   selectedTab: 'All',
-} as IProductStore)
-
-export interface IProductStore {
-  products: Product[]
-  openProductForm: boolean
-  openVariantForm: boolean
-  selectedProduct: Product | null
-  selectedVariant: Variant | null
-  selectedTab: string
-}
+} as ProductStore)
 
 export const useProduct = () => {
-  const [productState, setProductStore] = useFastContext<IProductStore>(
+  const [productState, setProductStore] = useFastContext<ProductStore>(
     (store) => store
   )
 
