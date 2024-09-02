@@ -1,6 +1,17 @@
 import { Category, Product } from '~/types/product.type'
 import { Variant } from '~/types/variant.type'
+import { mapFirebaseDataToProduct } from '~/utils'
 import firebaseDb from '~/utils/firebase'
+
+export const getProducts = async () => {
+  const productsFireBase = firebaseDb.child('products')
+
+  const products = await productsFireBase.once('value').then((data) => {
+    return mapFirebaseDataToProduct(data.val())
+  })
+
+  return products
+}
 
 export const addProduct = (product: Product) => {
   return (

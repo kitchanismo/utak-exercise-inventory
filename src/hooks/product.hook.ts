@@ -7,6 +7,7 @@ import {
   deleteVariant,
   editProduct,
   editVariant,
+  getProducts,
 } from '~/services/product.service'
 import { ApplicationReducers } from '~/stores'
 import {
@@ -36,15 +37,9 @@ export const useProduct = () => {
   }, [productState?.selectedTab])
 
   const onGetProducts = () => {
-    const productsFireBase = firebaseDb.child('products')
-
-    productsFireBase.on('value', (snapshot) => {
-      const products = mapFirebaseDataToProduct(snapshot.val())
-
+    getProducts().then((products) => {
       dispatch(setProductsAction(products))
     })
-
-    return productsFireBase
   }
 
   const onAddProduct = async (product: Product) => {
