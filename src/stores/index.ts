@@ -1,16 +1,13 @@
 import { applyMiddleware, combineReducers, createStore, Reducer } from 'redux'
 
-import ReduxThunk from 'redux-thunk'
-import productStore, { IProductStore } from './product.store'
+import { configureStore } from '@reduxjs/toolkit'
+import productSlice from './product.slice'
 
-export interface ApplicationReducers {
-  productStore: IProductStore
-}
-
-const reducers: Reducer<ApplicationReducers> = combineReducers({
-  productStore,
+export const store = configureStore({
+  reducer: {
+    product: productSlice,
+  },
 })
 
-const makeStore = (reducer) => createStore(reducer, applyMiddleware(ReduxThunk))
-
-export const store = makeStore(reducers)
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
