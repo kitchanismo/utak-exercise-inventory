@@ -24,7 +24,6 @@ import { useProduct } from '~/hooks/product.hook'
 import DeleteDialog from '../DeleteProductDialog'
 import { Variant } from '~/types/variant.type'
 import { capitalize, toMoney } from '~/utils'
-import { setSelectedProduct } from '~/stores/product.store'
 
 interface ProductTablRowProps {
   product: Product

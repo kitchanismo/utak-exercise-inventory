@@ -33,6 +33,8 @@ export const useProduct = () => {
 
   const onGetProducts = (tab: string) => {
     const productsFireBase = firebaseDb.child('products')
+    //when firebase was "on" it will listen for changes on database and it will invoke this function again
+    //please do update state manuallu if firebase changed to "once"
     productsFireBase.on('value', (snapshot) => {
       let products = mapFirebaseDataToProduct(snapshot.val())
 
@@ -56,11 +58,6 @@ export const useProduct = () => {
 
   const onDeleteProduct = async (productId: string) => {
     await deleteProduct(productId)
-
-    const products = productState.products?.filter(
-      (product) => product?.id !== productId
-    )
-    setProductStore({ products })
   }
 
   const onDeleteVariant = async (productId: string, variantId: string) => {
