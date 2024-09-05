@@ -9,31 +9,12 @@ import {
   editVariant,
   getProducts,
 } from '~/services/product.service'
-// import { ApplicationReducers } from '~/stores'
-import {
-  setProductsAction,
-  deleteProductAction,
-  setSelectedVariant,
-  setOpenProductForm,
-  setSelectedProduct,
-  setOpenVariantForm,
-  setSelectedTab,
-  IProductState,
-} from '~/stores/product.store'
 import { Variant } from '~/types/variant.type'
-import firebaseDb from '~/utils/firebase'
-import { mapFirebaseDataToProduct } from '~/utils'
 import { useEffect } from 'react'
 import { AppDispatch, RootState } from '~/stores'
 import { actions } from '~/stores/product.slice'
 
 export const useProduct = () => {
-  // const productState = useSelector(
-  //   (state: ApplicationReducers) => state?.productStore
-  // )
-
-  // const dispatch = useDispatch()
-
   const productState = useSelector((state: RootState) => state.product)
   const dispatch = useDispatch<AppDispatch>()
 
