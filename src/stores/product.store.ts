@@ -3,7 +3,7 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import { Product } from '~/types/product.type'
 import { Variant } from '~/types/variant.type'
 
-export interface IProductStore {
+export interface IProductState {
   products: Product[]
   openProductForm: boolean
   openVariantForm: boolean
@@ -12,7 +12,7 @@ export interface IProductStore {
   selectedTab: string
 }
 
-const state: IProductStore = {
+const state: IProductState = {
   products: [],
   openVariantForm: false,
   openProductForm: false,
